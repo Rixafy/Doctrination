@@ -7,7 +7,6 @@ namespace Rixafy\Doctrination;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use ReflectionObject;
-use ReflectionProperty;
 use \Rixafy\Doctrination\Language\Language;
 
 /**
