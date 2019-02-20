@@ -10,6 +10,10 @@ use ReflectionObject;
 use ReflectionProperty;
 use \Rixafy\Doctrination\Language\Language;
 
+/**
+ * @ORM\MappedSuperclass
+ * @ORM\HasLifecycleCallbacks
+ */
 abstract class EntityTranslator
 {
     /**
