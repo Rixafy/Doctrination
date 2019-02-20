@@ -60,7 +60,7 @@ abstract class EntityTranslator
     {
         $reflect = new ReflectionObject($this);
 
-        foreach ($reflect->getProperties(ReflectionProperty::IS_PROTECTED) as $prop) {
+        foreach ($reflect->getProperties() as $prop) {
             if (strpos($prop->getDocComment(), '@Translatable') !== false) {
                 yield $prop->getName() => $this->{$prop->getName()};
             }
