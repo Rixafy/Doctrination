@@ -18,7 +18,7 @@ abstract class EntityTranslator
 {
     /**
      * Many Stores have One Language.
-     * @ORM\ManyToOne(targetEntity="\App\Entity\Language", inversedBy="entity")
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Doctrination\Language\Language", inversedBy="entity")
      * @var \Rixafy\Doctrination\Language\Language
      */
     protected $fallback_language;
