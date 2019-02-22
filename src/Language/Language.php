@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Doctrination\Language;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rixafy\DoctrineTraits\UniqueTrait;
 
 /**
  * @ORM\Entity
@@ -12,15 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Language
 {
-    /**
-     * @var \Ramsey\Uuid\UuidInterface
-     *
-     * @ORM\Id
-     * @ORM\Column(type="uuid_binary", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
-    protected $id;
+    use UniqueTrait;
 
     /**
      * @ORM\Column(type="boolean")
@@ -49,11 +42,6 @@ class Language
     public function __construct(string $iso)
     {
         $this->iso = $iso;
-    }
-
-    public function getId(): ?\Ramsey\Uuid\UuidInterface
-    {
-        return $this->id;
     }
 
     /**
