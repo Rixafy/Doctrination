@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Doctrination\Language;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
 
 /**
@@ -14,12 +15,7 @@ use Rixafy\DoctrineTraits\UniqueTrait;
 class Language
 {
     use UniqueTrait;
-
-    /**
-     * @ORM\Column(type="boolean")
-     * @var bool
-     */
-    private $is_active = true;
+    use ActiveTrait;
 
     /**
      * @ORM\Column(type="string", length=31)
@@ -90,21 +86,5 @@ class Language
     public function setNameOriginal(string $name_original): void
     {
         $this->name_original = $name_original;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isActive(): bool
-    {
-        return $this->is_active;
-    }
-
-    /**
-     * @param bool $is_active
-     */
-    public function setIsActive(bool $is_active): void
-    {
-        $this->is_active = $is_active;
     }
 }
