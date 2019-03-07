@@ -64,7 +64,7 @@ abstract class EntityTranslator
     /**
      * @return \Generator
      */
-    public function getTranslatableColumns(): \Generator
+    protected function getTranslatableColumns(): \Generator
     {
         $reflect = new ReflectionObject($this);
 
