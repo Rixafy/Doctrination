@@ -6,6 +6,7 @@ namespace Rixafy\Doctrination;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
+use ReflectionClass;
 use ReflectionObject;
 use \Rixafy\Doctrination\Language\Language;
 
@@ -48,7 +49,15 @@ abstract class EntityTranslator
                 }
             }
 
-            $this->$key = $translation->{'get' . str_replace('_', '', ucwords($key, '_'))}();
+            try {
+                $reflection = new ReflectionClass($translation);
+                $property = $reflection->getProperty($key);
+                $property->setAccessible(true);
+                $this->$key = $property->getValue();
+
+            } catch (\ReflectionException $e) {
+                $this->$key = $translation->{'get' . str_replace('_', '', ucwords($key, '_'))}();
+            }
         }
     }
 
