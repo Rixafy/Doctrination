@@ -129,6 +129,11 @@ abstract class EntityTranslator
         }
     }
 
+    /**
+     * @param $dataObject
+     * @param Language $language
+     * @return mixed
+     */
     public function addTranslation($dataObject, Language $language)
     {
         $translation = new (get_class($this) . 'Translation')($dataObject, $language, $this);
