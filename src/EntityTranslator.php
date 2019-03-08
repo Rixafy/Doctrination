@@ -27,7 +27,7 @@ abstract class EntityTranslator
      * @ORM\PostLoad
      * @throws Exception\UnsetLanguageException
      */
-    public function loadTranslations()
+    public function injectTranslation()
     {
         $language = Doctrination::getLanguage();
         $translation = null;
