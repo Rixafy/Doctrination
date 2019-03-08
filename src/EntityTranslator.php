@@ -7,7 +7,6 @@ namespace Rixafy\Doctrination;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use ReflectionClass;
-use ReflectionObject;
 use \Rixafy\Doctrination\Language\Language;
 
 /**
@@ -23,55 +22,46 @@ abstract class EntityTranslator
      */
     protected $fallback_language;
 
+    protected $translation;
+
     /**
      * @ORM\PostLoad
      * @throws Exception\UnsetLanguageException
+     * @throws \ReflectionException
      */
     public function injectTranslation()
     {
         $language = Doctrination::getLanguage();
-        $translation = null;
 
-        foreach ($this->getTranslatableColumns() as $key => $value) {
-            if ($translation === null) {
+        if ($this->translation === null) {
+            $criteria = Criteria::create()
+                ->where(Criteria::expr()->eq('language', $language))
+                ->setMaxResults(1);
+
+            $this->translation = $this->getTranslations()->matching($criteria)->first();
+
+            if (!$this->translation) {
                 $criteria = Criteria::create()
-                    ->where(Criteria::expr()->eq('language', $language))
+                    ->where(Criteria::expr()->eq('language', $this->fallback_language))
                     ->setMaxResults(1);
 
-                $translation = $this->getTranslations()->matching($criteria)->first();
-
-                if (!$translation) {
-                    $criteria = Criteria::create()
-                        ->where(Criteria::expr()->eq('language', $this->fallback_language))
-                        ->setMaxResults(1);
-
-                    $translation = $this->getTranslations()->matching($criteria)->first();
-                }
-            }
-
-            try {
-                $reflection = new ReflectionClass($translation);
-                $property = $reflection->getProperty($key);
-                $property->setAccessible(true);
-                $this->$key = $property->getValue();
-
-            } catch (\ReflectionException $e) {
-                $this->$key = $translation->{'get' . str_replace('_', '', ucwords($key, '_'))}();
+                $this->translation = $this->getTranslations()->matching($criteria)->first();
             }
         }
+
+        $this->injectFields();
     }
 
     /**
-     * @return \Generator
+     * @throws \ReflectionException
      */
-    protected function getTranslatableColumns(): \Generator
+    protected function injectFields()
     {
-        $reflect = new ReflectionObject($this);
+        $reflection = new ReflectionClass($this->translation);
 
-        foreach ($reflect->getProperties() as $prop) {
-            if (strpos($prop->getDocComment(), '@Translatable') !== false) {
-                yield $prop->getName() => $this->{$prop->getName()};
-            }
+        foreach($reflection->getProperties() as $property) {
+            $property->setAccessible(true);
+            $this->{$property->getName()} = $property->getValue();
         }
     }
 
