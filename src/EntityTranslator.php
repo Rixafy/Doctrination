@@ -82,10 +82,11 @@ abstract class EntityTranslator
     /**
      * @param $dataObject
      * @param Language $language
+     * @throws Exception\UnsetLanguageException
      */
     public function editTranslation($dataObject, Language $language)
     {
-        if ($language === $this->translationLanguage) {
+        if ($this->translation !== null && $language === $this->translationLanguage) {
             try {
                 $reflection = new ReflectionClass($this->translation);
                 foreach ($reflection->getProperties() as $property) {
@@ -99,7 +100,40 @@ abstract class EntityTranslator
                 }
             } catch (\ReflectionException $e) {
             }
+        } else {
+            if ($this->fallback_language === null) {
+                $this->fallback_language = $language;
+                $this->translation = $this->addTranslation($dataObject, $language);
+                $this->translationLanguage = $language;
+                try {
+                    $this->injectFields();
+                } catch (\ReflectionException $e) {
+                }
+            } else {
+                $translation = $this->addTranslation($dataObject, $language);
+                if ($language === Doctrination::getLanguage()) {
+                    $this->translation = $translation;
+                    $this->translationLanguage = $language;
+                    try {
+                        $this->injectFields();
+                    } catch (\ReflectionException $e) {
+                    }
+                }
+            }
         }
+    }
+
+    public function addTranslation($dataObject, Language $language)
+    {
+        $translation = new (get_class($this) . 'Translation')($dataObject, $language, $this);
+
+        $this->translations->add($translation);
+
+        if ($this->fallback_language === null) {
+            $this->fallback_language = $language;
+        }
+
+        return $translation;
     }
 
     /**
