@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rixafy\Doctrination;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use ReflectionClass;
@@ -22,8 +23,13 @@ abstract class EntityTranslator
      */
     protected $fallback_language;
 
+    /** @var object */
     protected $translation;
 
+    /** @var ArrayCollection */
+    protected $translations;
+
+    /** @var Language */
     protected $translationLanguage;
 
     /**
