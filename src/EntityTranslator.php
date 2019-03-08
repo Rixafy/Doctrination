@@ -24,6 +24,8 @@ abstract class EntityTranslator
 
     protected $translation;
 
+    protected $translationLanguage;
+
     /**
      * @ORM\PostLoad
      * @throws Exception\UnsetLanguageException
@@ -39,6 +41,7 @@ abstract class EntityTranslator
                 ->setMaxResults(1);
 
             $this->translation = $this->getTranslations()->matching($criteria)->first();
+            $this->translationLanguage = $language;
 
             if (!$this->translation) {
                 $criteria = Criteria::create()
@@ -46,6 +49,7 @@ abstract class EntityTranslator
                     ->setMaxResults(1);
 
                 $this->translation = $this->getTranslations()->matching($criteria)->first();
+                $this->translationLanguage = $this->fallback_language;
             }
         }
 
@@ -72,6 +76,29 @@ abstract class EntityTranslator
     {
         if ($this->fallback_language === null) {
             $this->fallback_language = $language;
+        }
+    }
+
+    /**
+     * @param $dataObject
+     * @param Language $language
+     */
+    public function editTranslation($dataObject, Language $language)
+    {
+        if ($language === $this->translationLanguage) {
+            try {
+                $reflection = new ReflectionClass($this->translation);
+                foreach ($reflection->getProperties() as $property) {
+                    $camelKey = str_replace('_', '', ucwords($property->getName(), '_'));
+                    if (isset($dataObject->{$camelKey})) {
+                        $value = $dataObject->{$camelKey};
+                        $property->setAccessible(true);
+                        $property->setValue($value);
+                        $this->{$property->getName()} = $value;
+                    }
+                }
+            } catch (\ReflectionException $e) {
+            }
         }
     }
 
