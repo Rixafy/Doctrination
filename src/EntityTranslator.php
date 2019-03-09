@@ -95,7 +95,8 @@ abstract class EntityTranslator
 
     public function addTranslation($dataObject, Language $language)
     {
-        $translation = new (get_class($this) . 'Translation')($dataObject, $language, $this);
+        $class = get_class($this) . 'Translation';
+        $translation = $class($dataObject, $language, $this);
 
         $this->translations->add($translation);
 
