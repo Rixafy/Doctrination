@@ -78,15 +78,15 @@ abstract class EntityTranslator
 
         $reflection = new ReflectionClass($this->translation);
 
-        foreach($reflection->getProperties() as $property) {
-            $property->setAccessible(true);
+        foreach ($reflection->getProperties() as $property) {
             $propertyName = $property->getName();
 
-            if($propertyName === 'id') {
+            if ($propertyName === 'id' || $propertyName == 'language' || $propertyName == 'entity') {
                 continue;
             }
 
-            $this->{$property->getName()} = $property->getValue($this->translation);
+            $property->setAccessible(true);
+            $this->{$propertyName} = $property->getValue($this->translation);
         }
     }
 
@@ -119,7 +119,11 @@ abstract class EntityTranslator
     public function editTranslation($dataObject, Language $language)
     {
         if ($this->translation !== null && $language === $this->translationLanguage) {
-            $this->updateTranslationFields($dataObject, $this->translation, $language);
+            $this->updateTranslationFields($dataObject, $this->translation);
+            try {
+                $this->injectFields();
+            } catch (\ReflectionException | TranslationNotFoundException $ignored) {
+            }
         } else {
             if ($this->fallback_language === null) {
                 $this->fallback_language = $language;
@@ -147,7 +151,7 @@ abstract class EntityTranslator
                     } catch (Exception\UnsetLanguageException $ignored) {
                     }
                 } else {
-                    $this->updateTranslationFields($dataObject, $translation, $language);
+                    $this->updateTranslationFields($dataObject, $translation);
                 }
 
                 return $translation;
@@ -170,26 +174,22 @@ abstract class EntityTranslator
      */
     public abstract function getTranslations();
 
-    private function updateTranslationFields($dataObject, $translation, Language $language)
+    private function updateTranslationFields($dataObject, $translation)
     {
         try {
             $reflection = new ReflectionClass($translation);
 
             foreach ($reflection->getProperties() as $property) {
-                $strName = $property->getName();
-                if ($strName == 'id' || $strName == 'language') {
+                $propertyName = $property->getName();
+                if ($propertyName == 'id' || $propertyName == 'language' || $propertyName == 'entity') {
                     continue;
                 }
 
-                $camelKey = lcfirst(str_replace('_', '', ucwords($strName, '_')));
+                $camelKey = lcfirst(str_replace('_', '', ucwords($propertyName, '_')));
                 if (isset($dataObject->{$camelKey})) {
                     $value = $dataObject->{$camelKey};
                     $property->setAccessible(true);
                     $property->setValue($translation, $value);
-
-                    if ($language === $this->translationLanguage) {
-                        $this->{$strName} = $value;
-                    }
                 }
             }
         } catch (\ReflectionException $ignored) {
