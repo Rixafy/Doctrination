@@ -91,6 +91,8 @@ abstract class EntityTranslator
     }
 
     /**
+     * @deprecated
+     *
      * @param \Rixafy\Doctrination\Language\Language $language
      */
     protected function configureFallbackLanguage(Language $language)
