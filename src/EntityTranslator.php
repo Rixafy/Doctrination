@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rixafy\Doctrination;
 
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
