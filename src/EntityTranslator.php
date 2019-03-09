@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use ReflectionClass;
+use Rixafy\Doctrination\Exception\TranslationNotFoundException;
 use \Rixafy\Doctrination\Language\Language;
 
 /**
@@ -64,9 +65,14 @@ abstract class EntityTranslator
 
     /**
      * @throws \ReflectionException
+     * @throws TranslationNotFoundException
      */
     protected function injectFields()
     {
+        if ($this->translation == null) {
+            throw new TranslationNotFoundException('Translation for ' . get_class($this) . ' not found');
+        }
+
         $reflection = new ReflectionClass($this->translation);
 
         foreach($reflection->getProperties() as $property) {
@@ -88,7 +94,6 @@ abstract class EntityTranslator
     /**
      * @param $dataObject
      * @param Language $language
-     * @throws Exception\UnsetLanguageException
      */
     public function editTranslation($dataObject, Language $language)
     {
@@ -104,7 +109,7 @@ abstract class EntityTranslator
                         $this->{$property->getName()} = $value;
                     }
                 }
-            } catch (\ReflectionException $e) {
+            } catch (\ReflectionException $ignored) {
             }
         } else {
             if ($this->fallback_language === null) {
@@ -113,17 +118,20 @@ abstract class EntityTranslator
                 $this->translationLanguage = $language;
                 try {
                     $this->injectFields();
-                } catch (\ReflectionException $e) {
+                } catch (\ReflectionException | TranslationNotFoundException $ignored) {
                 }
             } else {
                 $translation = $this->addTranslation($dataObject, $language);
-                if ($language === Doctrination::getLanguage()) {
-                    $this->translation = $translation;
-                    $this->translationLanguage = $language;
-                    try {
-                        $this->injectFields();
-                    } catch (\ReflectionException $e) {
+                try {
+                    if ($language === Doctrination::getLanguage()) {
+                        $this->translation = $translation;
+                        $this->translationLanguage = $language;
+                        try {
+                            $this->injectFields();
+                        } catch (\ReflectionException | TranslationNotFoundException $ignored) {
+                        }
                     }
+                } catch (Exception\UnsetLanguageException $ignored) {
                 }
             }
         }
