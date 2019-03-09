@@ -114,26 +114,10 @@ abstract class EntityTranslator
         return $translation;
     }
 
-    /**
-     * @param $dataObject
-     * @param Language $language
-     */
     public function editTranslation($dataObject, Language $language)
     {
         if ($this->translation !== null && $language === $this->translationLanguage) {
-            try {
-                $reflection = new ReflectionClass($this->translation);
-                foreach ($reflection->getProperties() as $property) {
-                    $camelKey = str_replace('_', '', ucwords($property->getName(), '_'));
-                    if (isset($dataObject->{$camelKey})) {
-                        $value = $dataObject->{$camelKey};
-                        $property->setAccessible(true);
-                        $property->setValue($value);
-                        $this->{$property->getName()} = $value;
-                    }
-                }
-            } catch (\ReflectionException $ignored) {
-            }
+            $this->updateTranslationFields($dataObject, $this->translation, $language);
         } else {
             if ($this->fallback_language === null) {
                 $this->fallback_language = $language;
@@ -144,20 +128,31 @@ abstract class EntityTranslator
                 } catch (\ReflectionException | TranslationNotFoundException $ignored) {
                 }
             } else {
-                $translation = $this->addTranslation($dataObject, $language);
-                try {
-                    if ($language === Doctrination::getLanguage()) {
-                        $this->translation = $translation;
-                        $this->translationLanguage = $language;
-                        try {
-                            $this->injectFields();
-                        } catch (\ReflectionException | TranslationNotFoundException $ignored) {
+                $translation = $this->getTranslation($language);
+
+                if ($translation === null) {
+                    $translation = $this->addTranslation($dataObject, $language);
+
+                    try {
+                        if ($language === Doctrination::getLanguage()) {
+                            $this->translation = $translation;
+                            $this->translationLanguage = $language;
+                            try {
+                                $this->injectFields();
+                            } catch (\ReflectionException | TranslationNotFoundException $ignored) {
+                            }
                         }
+                    } catch (Exception\UnsetLanguageException $ignored) {
                     }
-                } catch (Exception\UnsetLanguageException $ignored) {
+                } else {
+                    $this->updateTranslationFields($dataObject, $translation, $language);
                 }
+
+                return $translation;
             }
         }
+
+        return $this->translation;
     }
 
     public function getTranslation(Language $language) {
@@ -172,4 +167,30 @@ abstract class EntityTranslator
      * @return Selectable
      */
     public abstract function getTranslations();
+
+    private function updateTranslationFields($dataObject, $translation, Language $language)
+    {
+        try {
+            $reflection = new ReflectionClass($translation);
+
+            foreach ($reflection->getProperties() as $property) {
+                $strName = $property->getName();
+                if ($strName == 'id' || $strName == 'language') {
+                    continue;
+                }
+
+                $camelKey = lcfirst(str_replace('_', '', ucwords($strName, '_')));
+                if (isset($dataObject->{$camelKey})) {
+                    $value = $dataObject->{$camelKey};
+                    $property->setAccessible(true);
+                    $property->setValue($translation, $value);
+
+                    if ($language === $this->translationLanguage) {
+                        $this->{$strName} = $value;
+                    }
+                }
+            }
+        } catch (\ReflectionException $ignored) {
+        }
+    }
 }
