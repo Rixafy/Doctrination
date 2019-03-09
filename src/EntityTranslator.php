@@ -80,7 +80,7 @@ abstract class EntityTranslator
 
         foreach($reflection->getProperties() as $property) {
             $property->setAccessible(true);
-            $this->{$property->getName()} = $property->getValue();
+            $this->{$property->getName()} = $property->getValue($this->translation);
         }
     }
 
