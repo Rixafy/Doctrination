@@ -80,6 +80,12 @@ abstract class EntityTranslator
 
         foreach($reflection->getProperties() as $property) {
             $property->setAccessible(true);
+            $propertyName = $property->getName();
+
+            if($propertyName === 'id') {
+                continue;
+            }
+
             $this->{$property->getName()} = $property->getValue($this->translation);
         }
     }
