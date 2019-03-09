@@ -36,9 +36,8 @@ abstract class EntityTranslator
     /**
      * @ORM\PostLoad
      * @throws Exception\UnsetLanguageException
-     * @throws \ReflectionException
      */
-    public function injectTranslation()
+    public function injectDefaultTranslation()
     {
         $language = Doctrination::getLanguage();
 
@@ -60,7 +59,10 @@ abstract class EntityTranslator
             }
         }
 
-        $this->injectFields();
+        try {
+            $this->injectFields();
+        } catch (\ReflectionException | TranslationNotFoundException $e) {
+        }
     }
 
     /**
@@ -89,6 +91,19 @@ abstract class EntityTranslator
         if ($this->fallback_language === null) {
             $this->fallback_language = $language;
         }
+    }
+
+    public function addTranslation($dataObject, Language $language)
+    {
+        $translation = new (get_class($this) . 'Translation')($dataObject, $language, $this);
+
+        $this->translations->add($translation);
+
+        if ($this->fallback_language === null) {
+            $this->fallback_language = $language;
+        }
+
+        return $translation;
     }
 
     /**
@@ -137,22 +152,12 @@ abstract class EntityTranslator
         }
     }
 
-    /**
-     * @param $dataObject
-     * @param Language $language
-     * @return mixed
-     */
-    public function addTranslation($dataObject, Language $language)
-    {
-        $translation = new (get_class($this) . 'Translation')($dataObject, $language, $this);
+    public function getTranslation(Language $language) {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('language', $language))
+            ->setMaxResults(1);
 
-        $this->translations->add($translation);
-
-        if ($this->fallback_language === null) {
-            $this->fallback_language = $language;
-        }
-
-        return $translation;
+        return $this->getTranslations()->matching($criteria)->first();
     }
 
     /**
