@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Language;
+namespace Rixafy\Doctrination\Language;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\Uuid;
 use Rixafy\Doctrination\Language\Exception\LanguageNotFoundException;
-use Rixafy\Doctrination\Language\Language;
 
 class LanguageRepository
 {
@@ -45,6 +44,27 @@ class LanguageRepository
         return $language;
     }
 
+    /**
+     * @param string $iso
+     * @return Language
+     * @throws LanguageNotFoundException
+     */
+    public function getByIso(string $iso): Language
+    {
+        $language = $this->findByIso($iso);
+
+        if ($language === null) {
+            throw new LanguageNotFoundException('Language with id ' . $iso . ' not found.');
+        }
+
+        return $language;
+    }
+
+    public function getCount(): int
+    {
+        return (int) $this->getQueryBuilderForAll()->getQuery()->getMaxResults();
+    }
+
     public function find(string $id): ?Language
     {
         return $this->getQueryBuilderForAll()
@@ -53,9 +73,16 @@ class LanguageRepository
             ->getOneOrNullResult();
     }
 
+    public function findByIso(string $iso): ?Language
+    {
+        return $this->getQueryBuilderForAll()
+            ->andWhere('l.iso = :iso')->setParameter('iso', $iso)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function getQueryBuilderForAll(): QueryBuilder
     {
-        return $this->getRepository()->createQueryBuilder('b')
-            ->where('l.is_active = :active')->setParameter('active', true);
+        return $this->getRepository()->createQueryBuilder('l');
     }
 }

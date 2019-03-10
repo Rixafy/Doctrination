@@ -35,9 +35,16 @@ class Language
      */
     private $iso;
 
-    public function __construct(string $iso)
+    public function __construct(LanguageData $languageData)
     {
-        $this->iso = $iso;
+        $this->iso = $languageData->iso;
+        $this->edit($languageData);
+    }
+
+    public function edit(LanguageData $languageData)
+    {
+        $this->name = $languageData->name;
+        $this->name_original = $languageData->nameOriginal;
     }
 
     /**
@@ -49,14 +56,6 @@ class Language
     }
 
     /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    /**
      * @return string
      */
     public function getIso(): string
@@ -65,26 +64,10 @@ class Language
     }
 
     /**
-     * @param string $iso
-     */
-    public function setIso(string $iso): void
-    {
-        $this->iso = $iso;
-    }
-
-    /**
      * @return string
      */
     public function getNameOriginal(): string
     {
         return $this->name_original;
-    }
-
-    /**
-     * @param string $name_original
-     */
-    public function setNameOriginal(string $name_original): void
-    {
-        $this->name_original = $name_original;
     }
 }
