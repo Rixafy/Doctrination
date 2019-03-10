@@ -65,6 +65,18 @@ class LanguageFacade
 
     /**
      * @param string $id
+     * @throws Exception\LanguageNotFoundException
+     */
+    public function remove(string $id): void
+    {
+        $language = $this->languageRepository->get($id);
+        $this->entityManager->remove($language);
+
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @param string $id
      * @return Language
      * @throws Exception\LanguageNotFoundException
      */
