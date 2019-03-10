@@ -116,8 +116,14 @@ abstract class EntityTranslator
         return $translation;
     }
 
-    public function editTranslation($dataObject, Language $language)
+    public function editTranslation($dataObject, Language $language = null)
     {
+        if ($language === null && isset($dataObject->language)) {
+            $language = $dataObject->language;
+        } elseif ($language === null) {
+            return null;
+        }
+
         if ($this->translation !== null && $language === $this->translationLanguage) {
             $this->updateTranslationFields($dataObject, $this->translation);
             try {
