@@ -4,29 +4,45 @@ declare(strict_types=1);
 
 namespace Rixafy\Doctrination;
 
-use Rixafy\Doctrination\Exception\UnsetLanguageException;
+use Rixafy\Doctrination\Language\Exception\LanguageNotFoundException;
 use Rixafy\Doctrination\Language\Language;
+use Rixafy\Doctrination\Language\LanguageFacade;
+use Rixafy\Doctrination\Language\LanguageHolder;
 
 class Doctrination
 {
-    /** @var Language */
-    private static $language;
+    /** @var LanguageFacade */
+    private $languageFacade;
 
-    public static function setLanguage(Language $language): void
+    /** @var Language */
+    private $language;
+
+    /**
+     * Doctrination constructor.
+     * @param LanguageFacade $languageFacade
+     */
+    private function __construct(LanguageFacade $languageFacade)
     {
-        self::$language = $language;
+        $this->languageFacade = $languageFacade;
+    }
+
+    /**
+     * @param string $isoCode
+     */
+    public function setLanguage(string $isoCode): void
+    {
+        try {
+            $this->language = $this->languageFacade->getByIso($isoCode);
+            LanguageHolder::setLanguage($this->language);
+        } catch (LanguageNotFoundException $e) {
+        }
     }
 
     /**
      * @return Language
-     * @throws UnsetLanguageException
      */
-    public static function getLanguage(): Language
+    public function getLanguage(): Language
     {
-        if (self::$language === null) {
-            throw new UnsetLanguageException('Language was never set');
-        }
-
-        return self::$language;
+        return $this->language;
     }
 }

@@ -84,4 +84,14 @@ class LanguageFacade
     {
         return $this->languageRepository->get($id);
     }
+
+    /**
+     * @param string $iso
+     * @return Language
+     * @throws Exception\LanguageNotFoundException
+     */
+    public function getByIso(string $iso): Language
+    {
+        return $this->languageRepository->getByIso($iso);
+    }
 }

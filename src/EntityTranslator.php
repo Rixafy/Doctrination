@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Selectable;
 use ReflectionClass;
 use Rixafy\Doctrination\Exception\TranslationNotFoundException;
 use \Rixafy\Doctrination\Language\Language;
+use Rixafy\Doctrination\Language\LanguageHolder;
 
 /**
  * @ORM\MappedSuperclass
@@ -40,7 +41,7 @@ abstract class EntityTranslator
      */
     public function injectDefaultTranslation()
     {
-        $language = Doctrination::getLanguage();
+        $language = LanguageHolder::getLanguage();
 
         if ($this->translation === null) {
             $criteria = Criteria::create()
@@ -146,7 +147,7 @@ abstract class EntityTranslator
                     $translation = $this->addTranslation($dataObject, $language);
 
                     try {
-                        if ($language === Doctrination::getLanguage()) {
+                        if ($language === LanguageHolder::getLanguage()) {
                             $this->translation = $translation;
                             $this->translationLanguage = $language;
                             try {
