@@ -182,23 +182,27 @@ abstract class EntityTranslator
 
     private function updateTranslationFields($dataObject, $translation)
     {
-        try {
-            $reflection = new ReflectionClass($translation);
+        if (method_exists($translation, 'edit')) {
+            $translation->edit($dataObject);
+        } else {
+            try {
+                $reflection = new ReflectionClass($translation);
 
-            foreach ($reflection->getProperties() as $property) {
-                $propertyName = $property->getName();
-                if ($propertyName == 'id' || $propertyName == 'language' || $propertyName == 'entity') {
-                    continue;
-                }
+                foreach ($reflection->getProperties() as $property) {
+                    $propertyName = $property->getName();
+                    if ($propertyName == 'id' || $propertyName == 'language' || $propertyName == 'entity') {
+                        continue;
+                    }
 
-                $camelKey = lcfirst(str_replace('_', '', ucwords($propertyName, '_')));
-                if (isset($dataObject->{$camelKey})) {
-                    $value = $dataObject->{$camelKey};
-                    $property->setAccessible(true);
-                    $property->setValue($translation, $value);
+                    $camelKey = lcfirst(str_replace('_', '', ucwords($propertyName, '_')));
+                    if (isset($dataObject->{$camelKey})) {
+                        $value = $dataObject->{$camelKey};
+                        $property->setAccessible(true);
+                        $property->setValue($translation, $value);
+                    }
                 }
+            } catch (\ReflectionException $ignored) {
             }
-        } catch (\ReflectionException $ignored) {
         }
     }
 }
