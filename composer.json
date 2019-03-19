@@ -15,6 +15,11 @@
         "ramsey/uuid-doctrine": "dev-master",
         "rixafy/doctrine-traits": "dev-master"
     },
+    "autoload": {
+        "psr-4": {
+            "Rixafy\\Doctrination\\": "src"
+        }
+    },
     "config": {
         "platform": {
             "php": "7.1"
