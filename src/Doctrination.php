@@ -28,14 +28,12 @@ class Doctrination
 
     /**
      * @param string $isoCode
+     * @throws LanguageNotFoundException
      */
     public function setLanguage(string $isoCode): void
     {
-        try {
-            $this->language = $this->languageFacade->getByIso($isoCode);
-            LanguageHolder::setLanguage($this->language);
-        } catch (LanguageNotFoundException $e) {
-        }
+        $this->language = $this->languageFacade->getByIso($isoCode);
+        LanguageHolder::setLanguage($this->language);
     }
 
     /**
