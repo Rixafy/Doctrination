@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rixafy\Doctrination\Language;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class LanguageFacade
 {
@@ -48,12 +49,12 @@ class LanguageFacade
     }
 
     /**
-     * @param string $id
+     * @param UuidInterface $id
      * @param LanguageData $languageData
      * @return Language
      * @throws Exception\LanguageNotFoundException
      */
-    public function edit(string $id, LanguageData $languageData): Language
+    public function edit(UuidInterface $id, LanguageData $languageData): Language
     {
         $language = $this->languageRepository->get($id);
         $language->edit($languageData);
@@ -64,10 +65,10 @@ class LanguageFacade
     }
 
     /**
-     * @param string $id
+     * @param UuidInterface $id
      * @throws Exception\LanguageNotFoundException
      */
-    public function remove(string $id): void
+    public function remove(UuidInterface $id): void
     {
         $language = $this->languageRepository->get($id);
         $this->entityManager->remove($language);
@@ -76,11 +77,11 @@ class LanguageFacade
     }
 
     /**
-     * @param string $id
+     * @param UuidInterface $id
      * @return Language
      * @throws Exception\LanguageNotFoundException
      */
-    public function get(string $id): Language
+    public function get(UuidInterface $id): Language
     {
         return $this->languageRepository->get($id);
     }

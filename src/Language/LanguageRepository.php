@@ -7,7 +7,7 @@ namespace Rixafy\Doctrination\Language;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Rixafy\Doctrination\Language\Exception\LanguageNotFoundException;
 
 class LanguageRepository
@@ -29,13 +29,16 @@ class LanguageRepository
     }
 
     /**
-     * @param string $id
+     * @param UuidInterface $id
      * @return Language
      * @throws LanguageNotFoundException
      */
-    public function get(string $id): Language
+    public function get(UuidInterface $id): Language
     {
-        $language = $this->find($id);
+        /** @var Language $language */
+        $language = $this->getRepository()->findOneBy([
+            'id' => $id
+        ]);
 
         if ($language === null) {
             throw new LanguageNotFoundException('Language with id ' . $id . ' not found.');
@@ -51,10 +54,13 @@ class LanguageRepository
      */
     public function getByIso(string $iso): Language
     {
-        $language = $this->findByIso($iso);
+        /** @var Language $language */
+        $language = $this->getRepository()->findOneBy([
+            'iso' => $iso
+        ]);
 
         if ($language === null) {
-            throw new LanguageNotFoundException('Language with id ' . $iso . ' not found.');
+            throw new LanguageNotFoundException('Language with iso code ' . $iso . ' not found.');
         }
 
         return $language;
@@ -63,22 +69,6 @@ class LanguageRepository
     public function getCount(): int
     {
         return (int) $this->getQueryBuilderForAll()->getQuery()->getMaxResults();
-    }
-
-    public function find(string $id): ?Language
-    {
-        return $this->getQueryBuilderForAll()
-            ->andWhere('l.id = :id')->setParameter('id', Uuid::fromString($id))
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
-    public function findByIso(string $iso): ?Language
-    {
-        return $this->getQueryBuilderForAll()
-            ->andWhere('l.iso = :iso')->setParameter('iso', $iso)
-            ->getQuery()
-            ->getOneOrNullResult();
     }
 
     public function getQueryBuilderForAll(): QueryBuilder
