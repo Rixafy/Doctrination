@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Rixafy\Doctrination\Language;
 
-use Rixafy\Doctrination\Exception\UnsetLanguageException;
+use Rixafy\Doctrination\Language\Exception\LanguageNotProvidedException;
 
 class LanguageStaticHolder
 {
@@ -21,12 +21,12 @@ class LanguageStaticHolder
 
     /**
      * @return Language
-     * @throws UnsetLanguageException
+     * @throws LanguageNotProvidedException
      */
     public static function getLanguage(): Language
     {
         if (self::$language === null) {
-            throw new UnsetLanguageException('Language was never set');
+            throw new LanguageNotProvidedException('Language was never set');
         }
 
         return self::$language;

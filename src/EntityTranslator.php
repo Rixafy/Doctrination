@@ -10,7 +10,8 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use ReflectionClass;
 use Rixafy\Doctrination\Exception\TranslationNotFoundException;
-use \Rixafy\Doctrination\Language\Language;
+use Rixafy\Doctrination\Language\Exception\LanguageNotProvidedException;
+use Rixafy\Doctrination\Language\Language;
 use Rixafy\Doctrination\Language\LanguageStaticHolder;
 
 /**
@@ -37,7 +38,7 @@ abstract class EntityTranslator
 
     /**
      * @ORM\PostLoad
-     * @throws Exception\UnsetLanguageException
+     * @throws LanguageNotProvidedException
      */
     public function injectDefaultTranslation()
     {
@@ -155,7 +156,7 @@ abstract class EntityTranslator
                             } catch (\ReflectionException | TranslationNotFoundException $ignored) {
                             }
                         }
-                    } catch (Exception\UnsetLanguageException $ignored) {
+                    } catch (LanguageNotProvidedException $ignored) {
                     }
                 } else {
                     $this->updateTranslationFields($dataObject, $translation);
