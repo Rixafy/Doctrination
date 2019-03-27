@@ -6,7 +6,7 @@ namespace Rixafy\Doctrination\Language;
 
 use Rixafy\Doctrination\Exception\UnsetLanguageException;
 
-class LanguageHolder
+class LanguageStaticHolder
 {
     /** @var Language */
     private static $language;

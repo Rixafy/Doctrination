@@ -38,7 +38,7 @@ class LanguageProvider
     public function provide(string $languageCode): void
     {
         $this->language = $this->languageFacade->getByIso($languageCode);
-        LanguageHolder::setLanguage($this->language);
+        LanguageStaticHolder::setLanguage($this->language);
     }
 
     /**
