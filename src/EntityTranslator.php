@@ -40,7 +40,7 @@ abstract class EntityTranslator
      * @ORM\PostLoad
      * @throws LanguageNotProvidedException
      */
-    public function injectDefaultTranslation()
+    public function injectDefaultTranslation(): void
     {
         $language = LanguageStaticHolder::getLanguage();
 
@@ -72,7 +72,7 @@ abstract class EntityTranslator
      * @throws \ReflectionException
      * @throws TranslationNotFoundException
      */
-    protected function injectFields()
+    protected function injectFields(): void
     {
         if ($this->translation == null) {
             throw new TranslationNotFoundException('Translation for ' . get_class($this) . ' not found');
@@ -97,7 +97,7 @@ abstract class EntityTranslator
      *
      * @param \Rixafy\Doctrination\Language\Language $language
      */
-    protected function configureFallbackLanguage(Language $language)
+    protected function configureFallbackLanguage(Language $language): void
     {
         if ($this->fallback_language === null) {
             $this->fallback_language = $language;
@@ -182,7 +182,7 @@ abstract class EntityTranslator
      */
     public abstract function getTranslations();
 
-    private function updateTranslationFields($dataObject, $translation)
+    private function updateTranslationFields($dataObject, $translation): void
     {
         if (method_exists($translation, 'edit')) {
             $translation->edit($dataObject);
