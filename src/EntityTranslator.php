@@ -122,6 +122,7 @@ abstract class EntityTranslator
     {
         if ($language === null && isset($dataObject->language)) {
             $language = $dataObject->language;
+
         } elseif ($language === null) {
             return null;
         }
@@ -130,8 +131,10 @@ abstract class EntityTranslator
             $this->updateTranslationFields($dataObject, $this->translation);
             try {
                 $this->injectFields();
+
             } catch (\ReflectionException | TranslationNotFoundException $ignored) {
             }
+
         } else {
             if ($this->fallback_language === null) {
                 $this->fallback_language = $language;
@@ -139,8 +142,10 @@ abstract class EntityTranslator
                 $this->translationLanguage = $language;
                 try {
                     $this->injectFields();
+
                 } catch (\ReflectionException | TranslationNotFoundException $ignored) {
                 }
+
             } else {
                 $translation = $this->getTranslation($language);
 
@@ -153,11 +158,13 @@ abstract class EntityTranslator
                             $this->translationLanguage = $language;
                             try {
                                 $this->injectFields();
+
                             } catch (\ReflectionException | TranslationNotFoundException $ignored) {
                             }
                         }
                     } catch (LanguageNotProvidedException $ignored) {
                     }
+
                 } else {
                     $this->updateTranslationFields($dataObject, $translation);
                 }
@@ -186,6 +193,7 @@ abstract class EntityTranslator
     {
         if (method_exists($translation, 'edit')) {
             $translation->edit($dataObject);
+
         } else {
             try {
                 $reflection = new ReflectionClass($translation);
@@ -203,6 +211,7 @@ abstract class EntityTranslator
                         $property->setValue($translation, $value);
                     }
                 }
+
             } catch (\ReflectionException $ignored) {
             }
         }
