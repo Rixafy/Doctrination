@@ -41,7 +41,7 @@ class Language
         $this->edit($languageData);
     }
 
-    public function edit(LanguageData $languageData)
+    public function edit(LanguageData $languageData): void
     {
         $this->name = $languageData->name;
         $this->name_original = $languageData->nameOriginal;
