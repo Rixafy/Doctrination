@@ -47,25 +47,16 @@ class Language
         $this->name_original = $languageData->nameOriginal;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getIso(): string
     {
         return $this->iso;
     }
 
-    /**
-     * @return string
-     */
     public function getNameOriginal(): string
     {
         return $this->name_original;
