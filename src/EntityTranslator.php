@@ -23,7 +23,7 @@ abstract class EntityTranslator
     /**
      * Many Stores have One Language.
      * @ORM\ManyToOne(targetEntity="\Rixafy\Doctrination\Language\Language", inversedBy="entity")
-     * @var \Rixafy\Doctrination\Language\Language
+     * @var Language
      */
     protected $fallback_language;
 
@@ -93,9 +93,9 @@ abstract class EntityTranslator
     }
 
     /**
-     * @deprecated
+     * @param Language $language
+     *@deprecated
      *
-     * @param \Rixafy\Doctrination\Language\Language $language
      */
     protected function configureFallbackLanguage(Language $language): void
     {
