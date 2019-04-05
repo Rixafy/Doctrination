@@ -11,9 +11,6 @@ class LanguageStaticHolder
     /** @var Language */
     private static $language;
 
-    /**
-     * @param Language $language
-     */
     public static function setLanguage(Language $language): void
     {
         self::$language = $language;

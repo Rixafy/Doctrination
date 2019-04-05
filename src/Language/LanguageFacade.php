@@ -34,10 +34,6 @@ class LanguageFacade
         $this->languageFactory = $languageFactory;
     }
 
-    /**
-     * @param LanguageData $languageData
-     * @return Language
-     */
     public function create(LanguageData $languageData): Language
     {
         $language = $this->languageFactory->create($languageData);
