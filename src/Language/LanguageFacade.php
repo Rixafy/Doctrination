@@ -18,12 +18,6 @@ class LanguageFacade
     /** @var LanguageFactory */
     private $languageFactory;
 
-    /**
-     * LanguageFacade constructor.
-     * @param EntityManagerInterface $entityManager
-     * @param LanguageRepository $languageRepository
-     * @param LanguageFactory $languageFactory
-     */
     public function __construct(
         EntityManagerInterface $entityManager,
         LanguageRepository $languageRepository,
@@ -44,12 +38,6 @@ class LanguageFacade
         return $language;
     }
 
-    /**
-     * @param UuidInterface $id
-     * @param LanguageData $languageData
-     * @return Language
-     * @throws Exception\LanguageNotFoundException
-     */
     public function edit(UuidInterface $id, LanguageData $languageData): Language
     {
         $language = $this->languageRepository->get($id);
@@ -61,7 +49,6 @@ class LanguageFacade
     }
 
     /**
-     * @param UuidInterface $id
      * @throws Exception\LanguageNotFoundException
      */
     public function remove(UuidInterface $id): void
@@ -73,8 +60,6 @@ class LanguageFacade
     }
 
     /**
-     * @param UuidInterface $id
-     * @return Language
      * @throws Exception\LanguageNotFoundException
      */
     public function get(UuidInterface $id): Language
@@ -83,8 +68,6 @@ class LanguageFacade
     }
 
     /**
-     * @param string $iso
-     * @return Language
      * @throws Exception\LanguageNotFoundException
      */
     public function getByIso(string $iso): Language

@@ -18,7 +18,6 @@ class DoctrinationConfig
     }
 
     /**
-     * @param string $isoCode
      * @throws LanguageNotFoundException
      */
     public function setLanguage(string $isoCode): void

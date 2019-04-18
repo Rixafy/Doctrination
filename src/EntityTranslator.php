@@ -20,7 +20,6 @@ use Rixafy\Doctrination\Language\LanguageStaticHolder;
 abstract class EntityTranslator
 {
     /**
-     * Many Stores have One Language.
      * @ORM\ManyToOne(targetEntity="\Rixafy\Doctrination\Language\Language", inversedBy="entity")
      * @var Language
      */
@@ -93,8 +92,7 @@ abstract class EntityTranslator
 
     /**
      * @param Language $language
-     *@deprecated
-     *
+     * @deprecated
      */
     protected function configureFallbackLanguage(Language $language): void
     {

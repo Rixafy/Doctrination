@@ -17,7 +17,6 @@ class LanguageStaticHolder
     }
 
     /**
-     * @return Language
      * @throws LanguageNotProvidedException
      */
     public static function getLanguage(): Language

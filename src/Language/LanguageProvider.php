@@ -20,7 +20,6 @@ class LanguageProvider
     }
 
     /**
-     * @return Language
      * @throws LanguageNotProvidedException
      */
     public function getLanguage(): Language
@@ -32,7 +31,6 @@ class LanguageProvider
     }
 
     /**
-     * @param string $languageCode
      * @throws Exception\LanguageNotFoundException
      */
     public function provide(string $languageCode): void
@@ -42,7 +40,6 @@ class LanguageProvider
     }
 
     /**
-     * @param string $languageCode
      * @throws Exception\LanguageNotFoundException
      */
     public function change(string $languageCode): void
