@@ -49,7 +49,7 @@ abstract class EntityTranslator
                 ->where(Criteria::expr()->eq('language', $language))
                 ->setMaxResults(1);
 
-            $this->translation = $this->getTranslations()->matching($criteria)->first();
+            $this->translation = $this->translations->matching($criteria)->first();
             $this->translationLanguage = $language;
 
             if (!$this->translation) {
@@ -57,7 +57,7 @@ abstract class EntityTranslator
                     ->where(Criteria::expr()->eq('language', $this->fallback_language))
                     ->setMaxResults(1);
 
-                $this->translation = $this->getTranslations()->matching($criteria)->first();
+                $this->translation = $this->translations->matching($criteria)->first();
                 $this->translationLanguage = $this->fallback_language;
             }
         }
@@ -181,13 +181,8 @@ abstract class EntityTranslator
             ->where(Criteria::expr()->eq('language', $language))
             ->setMaxResults(1);
 
-        return $this->getTranslations()->matching($criteria)->first();
+        return $this->translations->matching($criteria)->first();
     }
-
-    /**
-     * @return Selectable
-     */
-    public abstract function getTranslations();
 
     private function updateTranslationFields($dataObject, $translation): void
     {
