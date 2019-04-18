@@ -7,7 +7,6 @@ namespace Rixafy\Doctrination;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Selectable;
 use ReflectionClass;
 use Rixafy\Doctrination\Exception\TranslationNotFoundException;
 use Rixafy\Doctrination\Language\Exception\LanguageNotProvidedException;
