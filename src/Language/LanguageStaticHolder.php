@@ -23,7 +23,7 @@ class LanguageStaticHolder
     public static function getLanguage(): Language
     {
         if (self::$language === null) {
-            throw new LanguageNotProvidedException('Language was never set');
+            throw LanguageNotProvidedException::neverSet();
         }
 
         return self::$language;

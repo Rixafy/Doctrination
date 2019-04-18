@@ -26,7 +26,7 @@ class LanguageProvider
     public function getLanguage(): Language
     {
         if ($this->language === null) {
-            throw new LanguageNotProvidedException('Language was not provided and default language is missing.');
+            throw LanguageNotProvidedException::neverSet();
         }
         return $this->language;
     }
