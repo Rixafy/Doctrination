@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rixafy\Doctrination\Language;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
 use Rixafy\Doctrination\Language\Exception\LanguageNotFoundException;
@@ -20,17 +19,12 @@ class LanguageRepository
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * @return EntityRepository|\Doctrine\Common\Persistence\ObjectRepository
-     */
     protected function getRepository()
     {
         return $this->entityManager->getRepository(Language::class);
     }
 
     /**
-     * @param UuidInterface $id
-     * @return Language
      * @throws LanguageNotFoundException
      */
     public function get(UuidInterface $id): Language
@@ -41,15 +35,13 @@ class LanguageRepository
         ]);
 
         if ($language === null) {
-            throw new LanguageNotFoundException('Language with id ' . $id . ' not found.');
+            throw LanguageNotFoundException::byId($id);
         }
 
         return $language;
     }
 
     /**
-     * @param string $iso
-     * @return Language
      * @throws LanguageNotFoundException
      */
     public function getByIso(string $iso): Language
@@ -60,7 +52,7 @@ class LanguageRepository
         ]);
 
         if ($language === null) {
-            throw new LanguageNotFoundException('Language with iso code ' . $iso . ' not found.');
+            throw LanguageNotFoundException::byIso($iso);
         }
 
         return $language;
