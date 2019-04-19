@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Doctrination\Annotation;
+namespace Rixafy\Language\Annotation;
 
 /**
  * @Annotation

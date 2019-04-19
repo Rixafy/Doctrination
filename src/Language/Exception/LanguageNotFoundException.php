@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Doctrination\Language\Exception;
+namespace Rixafy\Language\Exception;
 
 use Exception;
 use Ramsey\Uuid\UuidInterface;

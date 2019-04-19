@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Doctrination;
+namespace Rixafy\Language;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use ReflectionClass;
-use Rixafy\Doctrination\Exception\TranslationNotFoundException;
-use Rixafy\Doctrination\Language\Exception\LanguageNotProvidedException;
-use Rixafy\Doctrination\Language\Language;
-use Rixafy\Doctrination\Language\LanguageStaticHolder;
+use Rixafy\Language\Exception\TranslationNotFoundException;
+use Rixafy\Language\Exception\LanguageNotProvidedException;
+use Rixafy\Language\Language\Language;
+use Rixafy\Language\Language\LanguageStaticHolder;
 
 /**
  * @ORM\MappedSuperclass
@@ -20,7 +20,7 @@ use Rixafy\Doctrination\Language\LanguageStaticHolder;
 abstract class EntityTranslator
 {
     /**
-     * @ORM\ManyToOne(targetEntity="\Rixafy\Doctrination\Language\Language", inversedBy="entity")
+     * @ORM\ManyToOne(targetEntity="\Rixafy\Language\Language\Language", inversedBy="entity")
      * @var Language
      */
     protected $fallback_language;

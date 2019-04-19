@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Doctrination\Language;
+namespace Rixafy\Language\Language;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Ramsey\Uuid\UuidInterface;
-use Rixafy\Doctrination\Language\Exception\LanguageNotFoundException;
+use Rixafy\Language\Exception\LanguageNotFoundException;
 
 class LanguageRepository
 {

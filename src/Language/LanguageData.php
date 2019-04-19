@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Doctrination\Language;
+namespace Rixafy\Language\Language;
 
 class LanguageData
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Doctrination;
+namespace Rixafy\Language;
 
-use Rixafy\Doctrination\Language\Exception\LanguageNotFoundException;
-use Rixafy\Doctrination\Language\LanguageProvider;
+use Rixafy\Language\Exception\LanguageNotFoundException;
+use Rixafy\Language\Language\LanguageProvider;
 
-class DoctrinationConfig
+class LanguageConfig
 {
     /** @var LanguageProvider */
     private $languageProvider;

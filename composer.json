@@ -1,6 +1,6 @@
 {
-    "name": "rixafy/doctrination",
-    "description": "Entity translation system for Doctrine ORM",
+    "name": "rixafy/language",
+    "description": "Language CRUD model",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -17,12 +17,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Rixafy\\Doctrination\\": "src"
+            "Rixafy\\Language\\": "src"
         }
     },
     "config": {
         "platform": {
-            "php": "7.1"
+            "php": "7.3"
         }
     }
 }

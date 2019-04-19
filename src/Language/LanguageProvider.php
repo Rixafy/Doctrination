@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Doctrination\Language;
+namespace Rixafy\Language\Language;
 
-use Rixafy\Doctrination\Language\Exception\LanguageNotProvidedException;
+use Rixafy\Language\Exception\LanguageNotProvidedException;
 
 class LanguageProvider
 {

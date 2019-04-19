@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Doctrination\Exception;
+namespace Rixafy\Language\Exception;
 
 class TranslationNotFoundException extends \Exception
 {

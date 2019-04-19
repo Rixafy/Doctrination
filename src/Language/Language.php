@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Doctrination\Language;
+namespace Rixafy\Language\Language;
 
 use Doctrine\ORM\Mapping as ORM;
 use Rixafy\DoctrineTraits\ActiveTrait;
