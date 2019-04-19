@@ -14,8 +14,8 @@ class LanguageNotFoundException extends Exception
 		return new self('Language with id "' . $id . '" not found.');
 	}
 
-	public static function byIso(UuidInterface $id): self
+	public static function byIso(string $iso): self
 	{
-		return new self('Language with iso "' . $id . '" not found.');
+		return new self('Language with iso "' . $iso . '" not found.');
 	}
 }
