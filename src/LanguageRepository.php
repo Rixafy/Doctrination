@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Language\Language;
+namespace Rixafy\Language;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;

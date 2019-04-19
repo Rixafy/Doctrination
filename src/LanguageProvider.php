@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rixafy\Language\Language;
+namespace Rixafy\Language;
 
 use Rixafy\Language\Exception\LanguageNotFoundException;
 use Rixafy\Language\Exception\LanguageNotProvidedException;
