@@ -36,8 +36,15 @@ class LanguageProvider
 	 */
 	public function provide(string $languageCode): void
     {
-        $this->language = $this->languageFacade->getByIso($languageCode);
-        LanguageStaticHolder::setLanguage($this->language);
+		try {
+			$this->language = $this->languageFacade->getByIso($languageCode);
+			LanguageStaticHolder::setLanguage($this->language);
+
+		} catch (LanguageNotFoundException $e) {
+			if (php_sapi_name() !== 'cli') {
+				throw $e;
+			}
+		}
     }
 
 	/**
