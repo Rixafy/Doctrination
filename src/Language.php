@@ -47,6 +47,16 @@ class Language
         $this->name_original = $languageData->nameOriginal;
     }
 
+    public function getData(): LanguageData
+	{
+		$data = new LanguageData();
+
+		$data->name = $this->name;
+		$data->nameOriginal = $this->name_original;
+
+		return $data;
+	}
+
     public function getName(): string
     {
         return $this->name;
