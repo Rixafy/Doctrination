@@ -40,6 +40,7 @@ final class LanguageUpdateCommand extends Command
 	public function configure(): void
 	{
 		$this->setName('rixafy:language:update');
+		$this->setDescription('Updates language database from online json data.');
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): void
@@ -69,6 +70,7 @@ final class LanguageUpdateCommand extends Command
 
 					} catch (LanguageNotFoundException $e) {
 						$languageData = new LanguageData();
+						$languageData->iso = $iso;
 						$languageData->name = $value->name;
 						$languageData->nameOriginal = $value->nativeName;
 
