@@ -68,6 +68,8 @@ final class LanguageUpdateCommand extends Command
 
 						$language->edit($languageData);
 
+						$updated++;
+
 					} catch (LanguageNotFoundException $e) {
 						$languageData = new LanguageData();
 						$languageData->iso = $iso;
@@ -77,6 +79,8 @@ final class LanguageUpdateCommand extends Command
 						$language = $this->languageFactory->create($languageData);
 
 						$this->entityManager->persist($language);
+
+						$created++;
 					}
 				}
 
