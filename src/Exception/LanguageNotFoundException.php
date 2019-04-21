@@ -16,6 +16,6 @@ class LanguageNotFoundException extends Exception
 
 	public static function byIso(string $iso): self
 	{
-		return new self('Language with iso "' . $iso . '" not found.');
+		return new self('Language with iso "' . $iso . '" not found. Did you imported languages?');
 	}
 }
