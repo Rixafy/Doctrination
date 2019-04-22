@@ -65,6 +65,6 @@ class LanguageRepository
 
     public function getQueryBuilderForAll(): QueryBuilder
     {
-        return $this->getRepository()->createQueryBuilder('l');
+        return $this->getRepository()->createQueryBuilder('e');
     }
 }
