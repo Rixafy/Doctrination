@@ -43,8 +43,8 @@ class Language
 
     public function edit(LanguageData $languageData): void
     {
-        $this->name = $languageData->name;
-        $this->name_original = $languageData->nameOriginal;
+        $this->name = substr($languageData->name, 0, 63);
+        $this->name_original = substr($languageData->nameOriginal, 0, 63);
     }
 
     public function getData(): LanguageData
