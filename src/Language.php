@@ -18,13 +18,13 @@ class Language
     use ActiveTrait;
 
     /**
-     * @ORM\Column(type="string", length=31)
+     * @ORM\Column(type="string", length=63)
      * @var string
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=31)
+     * @ORM\Column(type="string", length=63)
      * @var string
      */
     private $name_original;
