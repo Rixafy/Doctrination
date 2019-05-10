@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rixafy\Language;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Rixafy\Language\Exception\LanguageNotFoundException;
 use Rixafy\Language\Exception\LanguageNotProvidedException;
 
@@ -15,9 +16,13 @@ class LanguageProvider
     /** @var LanguageFacade */
     private $languageFacade;
 
-    public function __construct(LanguageFacade $languageFacade)
+	/** @var EntityManagerInterface */
+	private $entityManager;
+
+    public function __construct(LanguageFacade $languageFacade, EntityManagerInterface $entityManager)
     {
         $this->languageFacade = $languageFacade;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -36,6 +41,12 @@ class LanguageProvider
 	 */
 	public function provide(string $languageCode): void
     {
+		if (php_sapi_name() === 'cli') {
+			if (!$this->entityManager->getConnection()->getSchemaManager()->tablesExist(['language'])) {
+				return;
+			}
+		}
+
 		try {
 			$this->language = $this->languageFacade->getByIso($languageCode);
 			LanguageStaticHolder::setLanguage($this->language);
