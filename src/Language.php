@@ -27,7 +27,7 @@ class Language
      * @ORM\Column(type="string", length=63)
      * @var string
      */
-    private $name_original;
+    private $nameOriginal;
 
     /**
      * @ORM\Column(type="string", length=2, unique=true)
@@ -44,7 +44,7 @@ class Language
     public function edit(LanguageData $languageData): void
     {
         $this->name = substr($languageData->name, 0, 63);
-        $this->name_original = substr($languageData->nameOriginal, 0, 63);
+        $this->nameOriginal = substr($languageData->nameOriginal, 0, 63);
     }
 
     public function getData(): LanguageData
@@ -52,7 +52,7 @@ class Language
 		$data = new LanguageData();
 
 		$data->name = $this->name;
-		$data->nameOriginal = $this->name_original;
+		$data->nameOriginal = $this->nameOriginal;
 
 		return $data;
 	}
@@ -69,6 +69,6 @@ class Language
 
     public function getNameOriginal(): string
     {
-        return $this->name_original;
+        return $this->nameOriginal;
     }
 }
