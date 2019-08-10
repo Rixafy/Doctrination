@@ -10,6 +10,6 @@ class LanguageNotProvidedException extends Exception
 {
 	public static function neverSet(): self
 	{
-		new self('Language was never set and the default language is missing.');
+		return new self('Language was never set and the default language is missing.');
 	}
 }
