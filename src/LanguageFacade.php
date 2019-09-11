@@ -75,4 +75,12 @@ class LanguageFacade
     {
         return $this->languageRepository->getByIso($iso);
     }
+
+	/**
+	 * @return Language[]
+	 */
+    public function getAll(): array
+	{
+		return $this->languageRepository->getQueryBuilderForAll()->getQuery()->execute();
+	}
 }
