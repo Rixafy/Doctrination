@@ -25,22 +25,11 @@ class LanguageProvider
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * @throws LanguageNotProvidedException
-     */
-    public function getLanguage(): Language
-    {
-        if ($this->language === null) {
-            throw LanguageNotProvidedException::neverSet();
-        }
-        return $this->language;
-    }
-
 	/**
 	 * @throws LanguageNotFoundException
 	 */
-	public function provide(string $languageCode): void
-    {
+	public function setup(string $languageCode): void
+	{
 		if (php_sapi_name() === 'cli') {
 			if (!$this->entityManager->getConnection()->getSchemaManager()->tablesExist(['language'])) {
 				return;
@@ -56,6 +45,17 @@ class LanguageProvider
 				throw $e;
 			}
 		}
+	}
+    
+    /**
+     * @throws LanguageNotProvidedException
+     */
+    public function provide(): Language
+    {
+        if ($this->language === null) {
+            throw LanguageNotProvidedException::neverSet();
+        }
+        return $this->language;
     }
 
 	/**
@@ -63,6 +63,6 @@ class LanguageProvider
 	 */
 	public function change(string $languageCode): void
     {
-        $this->provide($languageCode);
+        $this->setup($languageCode);
     }
 }
