@@ -43,7 +43,7 @@ final class LanguageUpdateCommand extends Command
 		$this->setDescription('Updates language database from online json data.');
 	}
 
-	public function execute(InputInterface $input, OutputInterface $output): void
+	public function execute(InputInterface $input, OutputInterface $output): int
 	{
 		$payload = @file_get_contents('https://gist.githubusercontent.com/piraveen/fafd0d984b2236e809d03a0e306c8a4d/raw/eb8020ec3e50e40d1dbd7005eb6ae68fc24537bf/languages.json');
 
@@ -95,5 +95,7 @@ final class LanguageUpdateCommand extends Command
 				$output->writeln('<fg=red;options=bold>Language json is invalid</>');
 			}
 		}
+		
+		return 0;
 	}
 }
