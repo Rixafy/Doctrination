@@ -9,12 +9,14 @@
             "email": "rixafy@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "doctrine/orm": "2.6 - 3.0",
         "nette/utils": "^3.0",
-        "ramsey/uuid-doctrine": "dev-master",
-        "rixafy/doctrine-traits": "dev-master"
+        "rixafy/doctrine-traits": "^1.0"
+    },
+    "require-dev": {
+        "ramsey/uuid-doctrine": "dev-master"
     },
     "autoload": {
         "psr-4": {
