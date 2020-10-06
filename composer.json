@@ -16,7 +16,7 @@
         "rixafy/doctrine-traits": "^1.0"
     },
     "require-dev": {
-        "ramsey/uuid-doctrine": "dev-master"
+        "ramsey/uuid-doctrine": "^1.6"
     },
     "autoload": {
         "psr-4": {
