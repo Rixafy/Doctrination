@@ -8,32 +8,21 @@ use Doctrine\ORM\Mapping as ORM;
 use Rixafy\DoctrineTraits\ActiveTrait;
 use Rixafy\DoctrineTraits\UniqueTrait;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="language")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'language')]
 class Language
 {
     use UniqueTrait;
     use ActiveTrait;
 
-    /**
-     * @ORM\Column(type="string", length=63)
-     * @var string
-     */
-    private $name;
+	#[ORM\Column(length: 63)]
+    private string $name;
 
-    /**
-     * @ORM\Column(type="string", length=63)
-     * @var string
-     */
-    private $nameOriginal;
+	#[ORM\Column(length: 63)]
+    private string $nameOriginal;
 
-    /**
-     * @ORM\Column(type="string", length=2, unique=true)
-     * @var string
-     */
-    private $iso;
+	#[ORM\Column(length: 2, unique: true)]
+    private string $iso;
 
     public function __construct(LanguageData $languageData)
     {

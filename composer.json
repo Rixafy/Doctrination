@@ -11,12 +11,12 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "doctrine/orm": "2.6 - 3.0",
-        "nette/utils": "^3.0",
-        "rixafy/doctrine-traits": "^1.0"
+        "doctrine/orm": ">=2.6",
+        "nette/utils": ">=3.0",
+        "rixafy/doctrine-traits": "^2.0"
     },
     "require-dev": {
-        "ramsey/uuid-doctrine": "dev-master"
+        "ramsey/uuid-doctrine": "dev-main"
     },
     "autoload": {
         "psr-4": {
