@@ -6,13 +6,13 @@ namespace Rixafy\Language;
 
 use Doctrine\ORM\Mapping as ORM;
 use Rixafy\DoctrineTraits\ActiveTrait;
-use Rixafy\DoctrineTraits\UniqueTrait;
+use Rixafy\DoctrineTraits\UniqueUlidTrait;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'language')]
 class Language
 {
-    use UniqueTrait;
+	use UniqueUlidTrait;
     use ActiveTrait;
 
 	#[ORM\Column(length: 63)]
